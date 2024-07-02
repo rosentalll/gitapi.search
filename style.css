@@ -1,0 +1,112 @@
+@font-face {
+    font-family: Roboto;
+    src: url("fonts/Roboto-Regular.ttf");
+}
+
+.body {
+    background: #C4C4C4;
+    font-family: Roboto;
+}
+
+.search {
+    padding: 50px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search__dropdown {
+    width: 500px;
+    height: 220px;
+}
+
+.search__choice {
+    margin: 0;
+    padding-left: 10px;
+
+    width: 489px;
+    height: 44px;
+
+    border: 1px solid black;
+    background-color: #E3E3E3;
+
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.input {
+    width: 493px;
+    height: 61px;
+
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 56px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.repo-card {
+    margin-top: 50px;
+}
+
+.repo-card__content { 
+    width: 503px;
+    height: 101px;
+
+    padding: 5px 10px 5px 10px;
+
+    background-color: #E27BEB;
+    border: 1px solid black;
+    color: black;
+
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.btn-close {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    position: relative;
+
+    background-color: transparent;
+    border: none;
+}
+
+.btn-close::before {
+    width: 100%;
+    height: 4px;
+
+    position: absolute;
+    transform: rotate(-45deg);
+    top: 50%;
+    left: 0;
+    content: "";
+    
+    background-color: #ff0000;
+}
+
+.btn-close::after {
+    width: 100%;
+    height: 4px;
+
+    transform: rotate(45deg);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    content: "";
+
+    background-color: #ff0000;
+}
