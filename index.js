@@ -20,8 +20,8 @@ body.appendChild(searchContainer);
 
 const debouncedGetRepos = debounce(getRepos, 500);
 
-input.addEventListener("input", () => {
-    const inputValue = input.value.trim();
+input.addEventListener("input", (e) => {
+    const inputValue = e.target.value.trim();
 
     if (!input.value[0]) {
         clearDropdown();
@@ -48,7 +48,7 @@ async function getRepos(request) {
             return;
         }
         const response = await fetch(
-            `https://api.github.com/search/repositories?q=${request}`,
+            `https://api.github.com/search/repositories?q=${request}&per_page=5`,
             {
                 headers: {
                 "X-GitHub-Api-Version": "2022-11-28",
@@ -60,20 +60,16 @@ async function getRepos(request) {
         }
 
         const repos = await response.json();
-        const dropdownRepos = repos.items.slice(0, 5);
+        const dropdownRepos = repos.items;
+        clearDropdown()
 
-        dropdown.innerHTML = "";
         if (dropdownRepos.length) {
             renderCard(dropdownRepos)
         } else {
-            dropdown.innerHTML = '<p class="no-results">No results...</p>';
+            addTextTo(dropdown, 'No results...')
         }
     } catch (error) {
-        dropdown.innerHTML = `
-            <p class="error-message">
-            Error fetching data: ${error.message}
-            </p>
-        `;
+        addTextTo(dropdown, `Error fetching data: ${error.message}`)
         console.error("Error during fetch:", error.message);
     }
 };
@@ -81,17 +77,27 @@ async function getRepos(request) {
 function createCard(data) {
     const newCard = document.createElement("div");
     newCard.classList.add("repo-card__content");
-    newCard.innerHTML = `
-        Name: ${data.name}
-        <br>
-        Owner: ${data.owner.login}
-        <br>
-        Stars: ${data.stargazers_count}
-        <button class="btn-close"></button>
-    `;
+
+    const newCardInfo = document.createElement("div");
+    newCardInfo.classList.add("repo-card__info");
+    newCard.append(newCardInfo);
+
+    const info = [
+        `Name: ${data.name}`, 
+        `Owner: ${data.owner.login}`, 
+        `Stars: ${data.stargazers_count}`
+    ]
+    
+    for (let i = 0; i < info.length; i++) {
+        addTextTo(newCardInfo, info[i], 'repo-card__info-line')
+    }
+
+    const closeBtn = document.createElement('button')
+    closeBtn.classList.add("btn-close")
+    newCard.append(closeBtn)
+
     repoCard.appendChild(newCard);
 
-    const closeBtn = newCard.querySelector(".btn-close")
     closeBtn.addEventListener("click", () => {
         newCard.remove();
     });
@@ -111,7 +117,16 @@ function renderCard(data) {
     });
 }
 
-function clearDropdown() {
-    dropdown.innerHTML = "";
+function addTextTo(element, text, someClass = null) {
+    const paragraph = document.createElement('p')
+    if (someClass !== null) paragraph.classList.add(someClass)
+    paragraph.textContent = text
+    element.append(paragraph)
 }
+
+function clearDropdown() {
+    let choices = Array.from(dropdown.children)
+    choices.forEach(choice => choice.remove())
+}
+
 

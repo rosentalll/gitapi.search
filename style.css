@@ -8,6 +8,10 @@
     font-family: Roboto;
 }
 
+.repo-card__info-line {
+    margin: 0;
+} 
+
 .search {
     padding: 50px;
 
